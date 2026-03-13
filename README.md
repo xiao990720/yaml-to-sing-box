@@ -1,7 +1,9 @@
-基于**https://github.com/wynemo/v2ray-to-sing-box**
+# Clash订阅转Singbox配置
 
 
-撰写自用的代理配置转换工具
+# 项目介绍
+
+自用的代理配置转换工具
 
 具体功能：
 
@@ -42,7 +44,16 @@
           "public_key": " ",
           "short_id": " "  
         }
-
-        
       }
     }
+
+
+# 感谢说明
+代码是复制粘贴和Google AI写的
+
+
+感谢 v2ray-to-sing-box插件 基于 **https://github.com/wynemo/v2ray-to-sing-box**
+
+
+感谢 gui-for-singbox 插件  **https://github.com/GUI-for-Cores/Plugin-Hub/blob/main/plugins/Generic/plugin-node-convert.js**
+
