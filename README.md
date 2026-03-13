@@ -49,7 +49,7 @@
 
 
 # 感谢说明
-代码是复制粘贴和Google AI写的
+代码是Google AI写的
 
 
 感谢 v2ray-to-sing-box插件 基于 **https://github.com/wynemo/v2ray-to-sing-box**
