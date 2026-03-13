@@ -1,20 +1,30 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
-# Run and deploy your AI Studio app
-
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/def7dfc0-c1b5-457b-93d2-28cbc2ce1f2a
-
-## Run Locally
-
-**Prerequisites:**  Node.js
+基于**https://github.com/wynemo/v2ray-to-sing-box**原理撰写自用的代理配置转换工具
+具体功能：
+   1、机场一般都是 v2ray/clash 格式的， 这是一个用于将 v2ray/clash 格式的订阅配置转换为sing-box格式的Web工具。 clash格式为yaml格式 v2ray可以是一行一行的节点信息，也可以是base64的 (不转换规则等配置，只有节点信息) 支持多种代理协议,能够将配置快速转换为sing-box可用的JSON格式。
+   2、可以自己VLESS配置
+   3、也可以手动添加 Sing-box JSON 节点
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   只要有一个节点都能生成配置
+   手动添加 Sing-box JSON 节点这个部分主要有完整的节点示例
+      {
+      "type": "vless",
+      "tag": " ",
+      "server": " ",
+      "server_port":  ,
+      "uuid": " ",
+      "flow": " ",
+      "tls": {
+        "enabled": true,
+        "server_name": " ",
+        "utls": {
+          "enabled": true,
+          "fingerprint": " "
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": " ",
+          "short_id": " "
+        }
+      }
+    }
