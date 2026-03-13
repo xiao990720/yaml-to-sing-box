@@ -1,0 +1,207 @@
+{
+  "log": {
+    "level": "warn",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "https",
+        "tag": "google",
+        "detour": "proxy",
+        "server": "dns.google"
+      },
+      {
+        "type": "https",
+        "tag": "ali",
+        "server": "223.5.5.5"
+      },
+      {
+        "type": "fakeip",
+        "tag": "fakeip",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "domain_suffix": [
+          "doubao.com",
+          "cdnbuild.net",
+          "bytegecko.com",
+          "volces.com",
+          "queniukw.com",
+          "feishu.cn",
+          "queniuck.com",
+          "queniukw.com",
+          "bytelb.net",
+          "byte008.com",
+          "cdnbuild.net",
+          "bytedns.net",
+          "qicp.vip",
+          "xiaoopenwrt.qicp.vip",
+          "larkoffice.com"
+        ],
+        "server": "ali"
+      },
+      {
+        "rule_set": "cn_domain",
+        "server": "ali"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "rule_set": "proxy_domain",
+        "server": "fakeip",
+        "rewrite_ttl": 60
+      }
+    ],
+    "final": "ali",
+    "independent_cache": true,
+    "cache_capacity": 4096
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "mtu": 1400,
+      "address": "172.19.0.0/30",
+      "auto_route": true,
+      "strict_route": true,
+      "route_exclude_address": [
+        "192.168.0.0/16",
+        "10.0.0.0/8",
+        "172.16.0.0/12"
+      ],
+      "stack": "gvisor",
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 7890
+        }
+      },
+      "sniff": true,
+      "sniff_override_destination": true
+    },
+    {
+      "type": "mixed",
+      "listen": "127.0.0.1",
+      "listen_port": 7890
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "proxy",
+      "outbounds": []
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "port": 53,
+        "action": "hijack-dns"
+      },
+      {
+        "domain_suffix": [
+          "doubao.com",
+          "bytegecko.com",
+          "volces.com",
+          "mzstatic.com",
+          "xiaoopenwrt.qicp.vip",
+          "icloud.com.cn"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct"
+      },
+      {
+        "port": 123,
+        "outbound": "direct"
+      },
+      {
+        "domain_keyword": [
+          ".local",
+          ".lan",
+          "desktop-",
+          "localhost"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "proxy"
+      },
+      {
+        "rule_set": [
+          "cn_domain",
+          "cn_ip",
+          "bytedance",
+          "bilibili"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "proxy_domain",
+        "outbound": "proxy"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "cn_ip",
+        "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geoip/cn.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "cn_domain",
+        "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/cn.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "bytedance",
+        "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/bytedance.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "bilibili",
+        "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/bilibili.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "proxy_domain",
+        "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/geolocation-!cn.srs",
+        "download_detour": "direct"
+      }
+    ],
+    "final": "proxy",
+    "auto_detect_interface": true,
+    "default_domain_resolver": "ali"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "ui"
+    }
+  }
+}
