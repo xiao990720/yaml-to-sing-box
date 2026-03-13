@@ -39,7 +39,6 @@
           "cdnbuild.net",
           "bytedns.net",
           "qicp.vip",
-          "xiaoopenwrt.qicp.vip",
           "larkoffice.com"
         ],
         "server": "ali"
@@ -114,7 +113,6 @@
           "bytegecko.com",
           "volces.com",
           "mzstatic.com",
-          "xiaoopenwrt.qicp.vip",
           "icloud.com.cn"
         ],
         "outbound": "direct"
