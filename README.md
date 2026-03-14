@@ -10,11 +10,14 @@
 
    1、机场一般都是 v2ray/clash 格式的， 这是一个用于将 v2ray/clash 格式的订阅配置转换为sing-box格式的Web工具。 clash格式为yaml格式 v2ray可以是一行一行的节点信息，也可以是base64的 (不转换规则等配置，只有节点信息) 支持多种代理协议,能够将配置快速转换为sing-box可用的JSON格式。
 
-   
-   2、可以自己VLESS配置
+
+   2、可以直接输入订阅链接
 
    
-   3、也可以手动添加 Sing-box JSON 节点
+   3、可以自己VLESS配置
+
+   
+   4、也可以手动添加 Sing-box JSON 节点
 
    
 
