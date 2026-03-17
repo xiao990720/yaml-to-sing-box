@@ -62,7 +62,7 @@ export default function App() {
   const [singboxNodeInput, setSingboxNodeInput] = useState('');
   const [enableSingboxInput, setEnableSingboxInput] = useState(false);
 
-  const [subLink, setSubLink] = useState({ enabled: false, url: '' });
+  const [subLink, setSubLink] = useState({ enabled: false, urls: '' });
 
   const handleManualNodeChange = (field: string, value: any) => {
     setManualNode(prev => ({ ...prev, [field]: value }));
@@ -156,7 +156,8 @@ export default function App() {
     try {
       const trimmedInput = input.trim();
       const hasManualNode = manualNode.enabled && manualNode.server;
-      const hasSubLink = subLink.enabled && subLink.url.trim();
+      const subUrls = subLink.enabled ? subLink.urls.split('\n').map(u => u.trim()).filter(Boolean) : [];
+      const hasSubLink = subUrls.length > 0;
 
       let manualSingboxNodes: any[] = [];
       if (enableSingboxInput && singboxNodeInput.trim()) {
@@ -186,25 +187,34 @@ export default function App() {
       }
 
       if (hasSubLink) {
-        setStatus({ message: '正在获取订阅链接...', isError: false });
-        let fetchedText = '';
-        try {
-          const res = await fetch(subLink.url.trim());
-          if (!res.ok) throw new Error('Network error');
-          fetchedText = await res.text();
-        } catch (err) {
+        let failedUrls: string[] = [];
+        for (const url of subUrls) {
+          setStatus({ message: `正在获取订阅链接: ${url}`, isError: false });
+          let fetchedText = '';
           try {
-            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(subLink.url.trim())}`;
-            const res = await fetch(proxyUrl);
-            if (!res.ok) throw new Error('Proxy error');
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('Network error');
             fetchedText = await res.text();
-          } catch (proxyErr) {
-            setStatus({ message: '获取订阅链接失败，请检查链接或网络', isError: true });
-            return;
+          } catch (err) {
+            try {
+              const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+              const res = await fetch(proxyUrl);
+              if (!res.ok) throw new Error('Proxy error');
+              fetchedText = await res.text();
+            } catch (proxyErr) {
+              console.error(`获取订阅链接失败: ${url}`, proxyErr);
+              failedUrls.push(url);
+              continue;
+            }
+          }
+          if (fetchedText) {
+            proxies.push(...parseTextToProxies(fetchedText.trim()));
           }
         }
-        if (fetchedText) {
-          proxies.push(...parseTextToProxies(fetchedText.trim()));
+        if (failedUrls.length > 0) {
+          setStatus({ message: `部分订阅链接获取失败: ${failedUrls.join(', ')}`, isError: true });
+          // If we have some proxies, we can still proceed, but maybe wait a bit so user sees the error
+          await new Promise(resolve => setTimeout(resolve, 2000));
         }
       }
 
@@ -390,12 +400,11 @@ export default function App() {
 
         {subLink.enabled && (
           <div>
-            <input
-              type="text"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="例如: https://example.com/api/v1/client/subscribe?token=xxx"
-              value={subLink.url}
-              onChange={(e) => setSubLink({ ...subLink, url: e.target.value })}
+            <textarea
+              className="w-full h-32 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="请输入订阅链接，每行一个&#10;例如: https://example.com/api/v1/client/subscribe?token=xxx"
+              value={subLink.urls}
+              onChange={(e) => setSubLink({ ...subLink, urls: e.target.value })}
             />
           </div>
         )}
