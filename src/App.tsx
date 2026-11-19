@@ -106,13 +106,27 @@ export default function App() {
   const processConfig = (proxies: any[], configTemplate: any) => {
     let config = JSON.parse(JSON.stringify(configTemplate));
 
+    // Ensure unique tags across proxies and template outbounds
+    const existingTags = new Set(config.outbounds.map((o: any) => o.tag));
+    const processedProxies = proxies.map((p, index) => {
+      let baseTag = p.tag || `Node_${index + 1}`;
+      let tag = baseTag;
+      let counter = 1;
+      while (existingTags.has(tag)) {
+        tag = `${baseTag}_${counter}`;
+        counter++;
+      }
+      existingTags.add(tag);
+      return { ...p, tag };
+    });
+
     // Append proxies to outbounds
-    config.outbounds.push(...proxies);
+    config.outbounds.push(...processedProxies);
 
     // Update the 'proxy' selector outbound
     const proxySelector = config.outbounds.find((o: any) => o.tag === 'proxy' && o.type === 'selector');
     if (proxySelector) {
-      const proxyTags = proxies.map((p: any) => p.tag);
+      const proxyTags = processedProxies.map((p: any) => p.tag);
       proxySelector.outbounds = [...proxyTags, 'direct'];
     }
 
