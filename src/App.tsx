@@ -123,11 +123,18 @@ export default function App() {
     // Append proxies to outbounds
     config.outbounds.push(...processedProxies);
 
+    const proxyTags = processedProxies.map((p: any) => p.tag);
+
+    // Update 'Auto' urltest outbounds
+    const autoOutbound = config.outbounds.find((o: any) => o.tag === 'Auto' && o.type === 'urltest');
+    if (autoOutbound) {
+      autoOutbound.outbounds = [...proxyTags];
+    }
+
     // Update the 'proxy' selector outbound
     const proxySelector = config.outbounds.find((o: any) => o.tag === 'proxy' && o.type === 'selector');
     if (proxySelector) {
-      const proxyTags = processedProxies.map((p: any) => p.tag);
-      proxySelector.outbounds = [...proxyTags, 'direct'];
+      proxySelector.outbounds = ['Auto', ...proxyTags, 'direct'];
     }
 
     return config;

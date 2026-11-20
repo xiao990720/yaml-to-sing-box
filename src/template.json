@@ -94,8 +94,17 @@
       "type": "selector",
       "tag": "proxy",
       "outbounds": [
+        "Auto",
         "direct"
       ]
+    },
+    {
+      "type": "urltest",
+      "tag": "Auto",
+      "outbounds": [],
+      "interval": "3m",
+      "tolerance": 50,
+      "url": "https://cp.cloudflare.com/generate_204"
     },
     {
       "type": "direct",
@@ -157,6 +166,7 @@
       {
         "rule_set": [
           "cn_domain",
+          "cn_ip",
           "bytedance",
           "bilibili"
         ],
