@@ -65,12 +65,13 @@
     {
       "type": "tun",
       "mtu": 1400,
-      "address": "172.19.0.0/30",
+      "address": "172.19.0.1/30",
       "auto_route": true,
-      "strict_route": true,
+      "strict_route": false,
       "route_exclude_address": [
         "192.168.0.0/16",
         "10.0.0.0/8",
+        "127.0.0.0/8",
         "172.16.0.0/12"
       ],
       "stack": "gvisor",
@@ -92,7 +93,9 @@
     {
       "type": "selector",
       "tag": "proxy",
-      "outbounds": []
+      "outbounds": [
+        "direct"
+      ]
     },
     {
       "type": "direct",
@@ -154,7 +157,6 @@
       {
         "rule_set": [
           "cn_domain",
-          "cn_ip",
           "bytedance",
           "bilibili"
         ],

@@ -1,0 +1,2261 @@
+{
+  "log": {
+    "level": "warn",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "udp",
+        "tag": "google",
+        "server": "8.8.8.8",
+        "server_port": 53,
+        "detour": "proxy"
+      },
+      {
+        "type": "udp",
+        "tag": "ali",
+        "server": "223.5.5.5",
+        "server_port": 53
+      },
+      {
+        "type": "fakeip",
+        "tag": "fakeip",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "domain_suffix": [
+          "doubao.com",
+          "cdnbuild.net",
+          "bytegecko.com",
+          "volces.com",
+          "queniukw.com",
+          "feishu.cn",
+          "queniuck.com",
+          "bytelb.net",
+          "byte008.com",
+          "bytedns.net",
+          "qicp.vip",
+          "xiaoopenwrt.qicp.vip",
+          "larkoffice.com"
+        ],
+        "server": "ali"
+      },
+      {
+        "rule_set": "cn_domain",
+        "server": "ali"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "rule_set": "proxy_domain",
+        "server": "fakeip",
+        "rewrite_ttl": 60
+      }
+    ],
+    "final": "ali",
+    "independent_cache": true,
+    "cache_capacity": 4096
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "mtu": 1400,
+      "address": "172.19.0.1/30",
+      "auto_route": true,
+      "strict_route": false,
+      "route_exclude_address": [
+        "192.168.0.0/16",
+        "10.0.0.0/8",
+        "127.0.0.0/8",
+        "172.16.0.0/12"
+      ],
+      "stack": "gvisor",
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 7890
+        }
+      }
+    },
+    {
+      "type": "mixed",
+      "listen": "127.0.0.1",
+      "listen_port": 7890
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "proxy",
+      "outbounds": [
+        "US",
+        "US_1",
+        "SG",
+        "JP",
+        "SG_1",
+        "SG_2",
+        "SG_3",
+        "US_2",
+        "SG_4",
+        "SG_5",
+        "SG_6",
+        "SG_7",
+        "US_3",
+        "JP_1",
+        "SG_8",
+        "DE",
+        "US_4",
+        "SG_9",
+        "SG_10",
+        "DE_1",
+        "SG_11",
+        "JP_2",
+        "US_5",
+        "US_6",
+        "US_7",
+        "US_8",
+        "US_9",
+        "SG_12",
+        "JP_3",
+        "SG_13",
+        "NL",
+        "DE_2",
+        "US_10",
+        "SG_14",
+        "DE_3",
+        "SG_15",
+        "US_11",
+        "NL_1",
+        "SG_16",
+        "NL_2",
+        "DE_4",
+        "SG_17",
+        "NL_3",
+        "US_12",
+        "NL_4",
+        "SG_18",
+        "US_13",
+        "US_14",
+        "JP_4",
+        "JP_5",
+        "JP_6",
+        "JP_7",
+        "JP_8",
+        "JP_9",
+        "SG_19",
+        "DE_5",
+        "NL_5",
+        "NL_6",
+        "NL_7",
+        "NL_8",
+        "NL_9",
+        "DE_6",
+        "DE_7",
+        "US_15",
+        "JP_10",
+        "JP_11",
+        "JP_12",
+        "JP_13",
+        "JP_14",
+        "SG_20",
+        "SG_21",
+        "SG_22",
+        "SG_23",
+        "SG_24",
+        "DE_8",
+        "DE_9",
+        "SG_25",
+        "SG_26",
+        "SG_27",
+        "SG_28",
+        "SG_29",
+        "US_16",
+        "US_17",
+        "US_18",
+        "US_19",
+        "direct"
+      ]
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "tag": "US",
+      "type": "vless",
+      "server": "www.visa.com.hk",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_1",
+      "type": "vless",
+      "server": "www.trump.com",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG",
+      "type": "vless",
+      "server": "www.sage.com",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP",
+      "type": "vless",
+      "server": "www.mfyx.cn",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_1",
+      "type": "vless",
+      "server": "www.jp.pima.gov",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_2",
+      "type": "vless",
+      "server": "www.deepl.com",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_3",
+      "type": "vless",
+      "server": "www.dbs.com.sg",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_2",
+      "type": "vless",
+      "server": "www.chess.com",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_4",
+      "type": "vless",
+      "server": "www.carousell.sg",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_5",
+      "type": "vless",
+      "server": "www.blibli.com",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_6",
+      "type": "vless",
+      "server": "www.bis.gov",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_7",
+      "type": "vless",
+      "server": "www.bis.gov",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_3",
+      "type": "vless",
+      "server": "w3.org",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_1",
+      "type": "vless",
+      "server": "vps.cheng2001.top",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_8",
+      "type": "vless",
+      "server": "versantstore.pearson.com",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE",
+      "type": "vless",
+      "server": "uptimerobot.com",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_4",
+      "type": "vless",
+      "server": "unpkg.com",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_9",
+      "type": "vless",
+      "server": "store.ubi.com",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_10",
+      "type": "vless",
+      "server": "staticdelivery.nexusmods.com",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE_1",
+      "type": "vless",
+      "server": "static.elfsight.com",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_11",
+      "type": "vless",
+      "server": "serviceshub.samsclub.com",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_2",
+      "type": "vless",
+      "server": "saas.sin.fan",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_5",
+      "type": "vless",
+      "server": "redis.io",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_6",
+      "type": "vless",
+      "server": "qoj.ac",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_7",
+      "type": "vless",
+      "server": "pure.coupert.com",
+      "server_port": 2087,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_8",
+      "type": "vless",
+      "server": "pubs.acs.org",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_9",
+      "type": "vless",
+      "server": "pubs.acs.org",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_12",
+      "type": "vless",
+      "server": "prizepicks.com",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_3",
+      "type": "vless",
+      "server": "p.etime.vip",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_13",
+      "type": "vless",
+      "server": "openai.com",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL",
+      "type": "vless",
+      "server": "nodeloc.cc",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE_2",
+      "type": "vless",
+      "server": "networksolutions.com",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_10",
+      "type": "vless",
+      "server": "mail.murata.com",
+      "server_port": 2087,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_14",
+      "type": "vless",
+      "server": "login.rockwellautomation.com",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE_3",
+      "type": "vless",
+      "server": "kwiat.com",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_15",
+      "type": "vless",
+      "server": "jobsdb.com",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_11",
+      "type": "vless",
+      "server": "investorrelations.medtronic.com",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL_1",
+      "type": "vless",
+      "server": "informahealthcare.com",
+      "server_port": 2087,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_16",
+      "type": "vless",
+      "server": "ikankeji.com",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL_2",
+      "type": "vless",
+      "server": "i.111666.best",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE_4",
+      "type": "vless",
+      "server": "hentaiverse.org",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_17",
+      "type": "vless",
+      "server": "guide.for.edu.sg",
+      "server_port": 2087,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL_3",
+      "type": "vless",
+      "server": "easylist.to",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_12",
+      "type": "vless",
+      "server": "dnew.cc",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL_4",
+      "type": "vless",
+      "server": "de.102198.xyz",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_18",
+      "type": "vless",
+      "server": "coreweave.com",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_13",
+      "type": "vless",
+      "server": "clickhouse.com",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_14",
+      "type": "vless",
+      "server": "chrono24.com",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_4",
+      "type": "vless",
+      "server": "cf.nyanya.moe",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_5",
+      "type": "vless",
+      "server": "cdn.7zz.cn",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_6",
+      "type": "vless",
+      "server": "bbs.alipansou.com",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_7",
+      "type": "vless",
+      "server": "bbs.alipansou.com",
+      "server_port": 2087,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_8",
+      "type": "vless",
+      "server": "auto.dolby.dpdns.org",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_9",
+      "type": "vless",
+      "server": "api.gzcrtw.com",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_19",
+      "type": "vless",
+      "server": "ahrefs.com",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE_5",
+      "type": "vless",
+      "server": "172.67.70.124",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL_5",
+      "type": "vless",
+      "server": "172.67.251.82",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL_6",
+      "type": "vless",
+      "server": "172.67.163.24",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL_7",
+      "type": "vless",
+      "server": "172.67.163.159",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL_8",
+      "type": "vless",
+      "server": "172.67.156.76",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "NL_9",
+      "type": "vless",
+      "server": "172.67.154.199",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE_6",
+      "type": "vless",
+      "server": "172.66.208.255",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE_7",
+      "type": "vless",
+      "server": "172.66.208.201",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_15",
+      "type": "vless",
+      "server": "172.64.83.215",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_10",
+      "type": "vless",
+      "server": "172.64.229.4",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_11",
+      "type": "vless",
+      "server": "172.64.229.253",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_12",
+      "type": "vless",
+      "server": "172.64.229.182",
+      "server_port": 2087,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_13",
+      "type": "vless",
+      "server": "172.64.229.17",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "JP_14",
+      "type": "vless",
+      "server": "172.64.229.129",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_20",
+      "type": "vless",
+      "server": "172.64.159.220",
+      "server_port": 443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_21",
+      "type": "vless",
+      "server": "172.64.156.182",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_22",
+      "type": "vless",
+      "server": "172.64.154.47",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_23",
+      "type": "vless",
+      "server": "172.64.154.208",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_24",
+      "type": "vless",
+      "server": "172.64.146.209",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE_8",
+      "type": "vless",
+      "server": "162.159.148.104",
+      "server_port": 2087,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "DE_9",
+      "type": "vless",
+      "server": "162.159.138.70",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_25",
+      "type": "vless",
+      "server": "104.18.41.52",
+      "server_port": 2087,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_26",
+      "type": "vless",
+      "server": "104.18.41.177",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_27",
+      "type": "vless",
+      "server": "104.18.39.93",
+      "server_port": 8443,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_28",
+      "type": "vless",
+      "server": "104.18.35.27",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "SG_29",
+      "type": "vless",
+      "server": "104.18.33.118",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_16",
+      "type": "vless",
+      "server": "104.17.187.159",
+      "server_port": 2096,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_17",
+      "type": "vless",
+      "server": "104.17.177.139",
+      "server_port": 2053,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_18",
+      "type": "vless",
+      "server": "104.17.140.85",
+      "server_port": 2083,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    },
+    {
+      "tag": "US_19",
+      "type": "vless",
+      "server": "104.17.105.74",
+      "server_port": 2087,
+      "uuid": "0756b1df-2c98-4956-8276-da887ce08753",
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn-9jz.pages.dev",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "headers": {
+          "Host": "vpn-9jz.pages.dev"
+        },
+        "path": "/"
+      }
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "port": 53,
+        "action": "hijack-dns"
+      },
+      {
+        "domain_suffix": [
+          "doubao.com",
+          "bytegecko.com",
+          "volces.com",
+          "mzstatic.com",
+          "xiaoopenwrt.qicp.vip",
+          "icloud.com.cn"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct"
+      },
+      {
+        "port": 123,
+        "outbound": "direct"
+      },
+      {
+        "domain_keyword": [
+          ".local",
+          ".lan",
+          "desktop-",
+          "localhost"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "proxy"
+      },
+      {
+        "rule_set": [
+          "cn_domain",
+          "cn_ip",
+          "bytedance",
+          "bilibili"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "proxy_domain",
+        "outbound": "proxy"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "cn_ip",
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
+        "download_detour": "proxy",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "cn_domain",
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+        "download_detour": "proxy",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "bytedance",
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bytedance.srs",
+        "download_detour": "proxy",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "bilibili",
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili.srs",
+        "download_detour": "proxy",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "proxy_domain",
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
+        "download_detour": "proxy",
+        "update_interval": "24h"
+      }
+    ],
+    "final": "proxy",
+    "auto_detect_interface": true,
+    "default_domain_resolver": "ali"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "ui"
+    }
+  }
+}
