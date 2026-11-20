@@ -102,7 +102,7 @@
       "type": "urltest",
       "tag": "Auto",
       "outbounds": [],
-      "interval": "3m",
+      "interval": "30m",
       "tolerance": 50,
       "url": "https://cp.cloudflare.com/generate_204"
     },
